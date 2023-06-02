@@ -1,0 +1,22 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:  
+  name: cd-pipeline
+spec:
+  workspaces:
+    - name: pipeline-workspace
+  params:
+  tasks:
+    - name: init
+      workspaces:
+        - name: source
+          workspace: pipeline-workspace          
+      taskRef:
+        name: cleanup
+        
+    - name: npminstall
+      workspaces:
+        - name: source
+          workspace: pipeline-workspace          
+      taskRef:
+        name: npm
