@@ -1,3 +1,5 @@
+tkn hub install task git-clone
+
 kubectl apply -f tasks.yaml
 kubectl apply -f pvc.yaml
 kubectl apply -f pipeline.yaml
