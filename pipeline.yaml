@@ -59,7 +59,7 @@ spec:
         name: docker-build
         kind: ClusterTask
       params:
-      - name: IMAGE
+      - name: image
         value: "$(params.build-image)"
       runAfter:
         - tests
