@@ -70,6 +70,7 @@ spec:
         kind: ClusterTask
       params:
       - name: SCRIPT
-        value: "oc create deploy $(params.app-name) --image=$(params.build-image)"
+        value: "ibmcloud ce application create --name $(params.app-name) --image=$(params.build-image) --registry-secret icr-secret --port 80"
+#         value: "oc create deploy $(params.app-name) --image=$(params.build-image)"
       runAfter:
         - build
