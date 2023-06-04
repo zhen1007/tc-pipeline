@@ -73,3 +73,4 @@ spec:
         value: "oc create deploy $(params.app-name) --image=$(params.build-image)"
       runAfter:
         - build
+
