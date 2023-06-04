@@ -54,7 +54,9 @@ spec:
     - name: build
       workspaces:
         - name: source
-          workspace: pipeline-workspace          
+          persistentVolumeClaim:
+            claimName: pipeline-workspace
+#           workspace: pipeline-workspace          
       taskRef:
         name: docker-build
         kind: ClusterTask
