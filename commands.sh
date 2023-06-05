@@ -28,5 +28,6 @@ kubectl get all -l app=tax-calculator
 IBMCLOUD_API_KEY=THE_KEY
 ibmcloud login --apikey $IBMCLOUD_API_KEY
 ibmcloud target -g production
+ibmcloud ce project current | grep ID | awk '{split($2, a, ":"); print a[1]}'
 ibmcloud ce project select --id d8db2fbf-REMAINING_ID
 ibmcloud ce project current
