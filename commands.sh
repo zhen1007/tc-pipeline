@@ -48,3 +48,15 @@ tkn pipeline start cd-pipeline \
     -p ibmcloud-project-id=199ccf6d-79b9-4d60-95f7-e26052736f50 \
     -w name=pipeline-workspace,claimName=pipelinerun-pvc \
     --showlog
+
+
+
+tkn pipeline start cd-pipeline \
+    -p repo-url="https://github.com/yahya-skillup/tax_calculator.git" \
+    -p branch=main \
+    -p app-name=tax-calculator \
+    -p build-image=us.icr.io/${SN_ICR_NAMESPACE}/tax-calculator \
+    -p ibmcloud-api-key=$IBMCLOUD_API_KEY \
+    -p ibmcloud-project-id=199ccf6d-79b9-4d60-95f7-e26052736f50 \
+    -w name=pipeline-workspace,claimName=pipelinerun-pvc \
+    --showlog
