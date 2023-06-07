@@ -9,6 +9,8 @@ spec:
     - name: app-name
     - name: build-image
     - name: repo-url
+    - name: ibmcloud-api-key
+    - name: ibmcloud-project-id
     - name: branch
       default: master
   tasks:
