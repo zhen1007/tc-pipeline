@@ -14,12 +14,21 @@ spec:
     - name: branch
       default: master
   tasks:
+    - name: printparams
+      taskRef:
+        name: echo
+      params:
+      - name: message
+        value: "Deploying $(params.ibmcloud-api-key) branch of $(params.repo-url) ..."
+
     - name: init
       workspaces:
         - name: source
           workspace: pipeline-workspace          
       taskRef:
         name: cleanup
+      runAfter:
+        - printparams
 
     - name: clone
       workspaces:
@@ -69,9 +78,11 @@ spec:
     - name: login
       taskRef:
         name: ibmcloud
-        kind: ClusterTask
+        # kind: ClusterTask
       params:
       - name: ARGS
-        value: "login --apikey --image=$(params.ibmcloud-api-key)"
+        value: 
+          - "login"
+          - "--apikey=$(params.ibmcloud-api-key)"
       runAfter:
         - build
