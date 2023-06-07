@@ -66,13 +66,12 @@ spec:
       runAfter:
         - tests
 
-    - name: deploy
+    - name: login
       taskRef:
-        name: openshift-client
+        name: ibmcloud
         kind: ClusterTask
       params:
-      - name: SCRIPT
-        value: "ibmcloud ce application create --name $(params.app-name) --image=$(params.build-image) --registry-secret icr-secret --port 80"
-#         value: "oc create deploy $(params.app-name) --image=$(params.build-image)"
+      - name: ARGS
+        value: "login --apikey --image=$(params.ibmcloud-api-key)"
       runAfter:
         - build
