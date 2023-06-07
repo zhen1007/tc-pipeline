@@ -1,6 +1,6 @@
-tkn hub install task git-clone
-tkn hub install task docker-build
-tkn hub install task ibmcloud
+tkn hub install task git-clone -n sn-labs-muhammady
+tkn hub install task docker-build -n sn-labs-muhammady
+tkn hub install task ibmcloud -n sn-labs-muhammady
 
 tkn task start ibmcloud 
 
