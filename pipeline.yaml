@@ -69,47 +69,60 @@ spec:
           - "$(params.ibmcloud-region)"
       runAfter:
         - tests
-        
-    - name: build
-      taskRef:
-        name: docker-build
-      params:
-      - name: image
-        value: "us.icr.io/sn-labs-muhammady/tax-calculator"
-      - name: build_extra_args
-        value: "-t"
-      runAfter:
-        - login
 
-    - name: deploy
+    - name: cr-login
       taskRef:
         name: ibmcloud
       params:
       - name: ARGS
         value: 
-          - "ce"
-          - "application"
-          - "create"
-          - "--name"
-          - "tax-calculator"
-          - "--image"
-          - "us.icr.io/sn-labs-muhammady/tax-calculator"
-          - "--registry-secret"
-          - "icr-secret"
-          - "--port"
-          - "80"
+          - "cr"
+          - "login"
+          - "--client"
+          - "docker"
       runAfter:
-        - build
+        - login
 
-#     - name: build
-#       workspaces:
-#         - name: source
-#           workspace: pipeline-workspace          
-#       taskRef:
-#         name: buildah
-#         kind: ClusterTask
-#       params:
-#       - name: IMAGE
-#         value: "$(params.build-image)"
-#       runAfter:
-#         - login
+    # - name: build
+    #   taskRef:
+    #     name: docker-build
+    #   params:
+    #   - name: image
+    #     value: "us.icr.io/sn-labs-muhammady/tax-calculator"
+    #   - name: build_extra_args
+    #     value: "-t"
+    #   runAfter:
+    #     - login
+
+    # - name: deploy
+    #   taskRef:
+    #     name: ibmcloud
+    #   params:
+    #   - name: ARGS
+    #     value: 
+    #       - "ce"
+    #       - "application"
+    #       - "create"
+    #       - "--name"
+    #       - "tax-calculator"
+    #       - "--image"
+    #       - "us.icr.io/sn-labs-muhammady/tax-calculator"
+    #       - "--registry-secret"
+    #       - "icr-secret"
+    #       - "--port"
+    #       - "80"
+    #   runAfter:
+    #     - build
+
+    - name: build
+      workspaces:
+        - name: source
+          workspace: pipeline-workspace          
+      taskRef:
+        name: buildah
+        kind: ClusterTask
+      params:
+      - name: IMAGE
+        value: "$(params.build-image)"
+      runAfter:
+        - cr-login
