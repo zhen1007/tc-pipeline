@@ -10,16 +10,18 @@ spec:
     - name: build-image
     - name: repo-url
     - name: ibmcloud-api-key
+    - name: ibmcloud-region
+      default: us-south
     - name: ibmcloud-project-id
     - name: branch
       default: master
   tasks:
-    - name: printparams
-      taskRef:
-        name: echo
-      params:
-      - name: message
-        value: "Deploying $(params.ibmcloud-api-key) branch of $(params.repo-url) ..."
+    # - name: printparams
+    #   taskRef:
+    #     name: echo
+    #   params:
+    #   - name: message
+    #     value: "Deploying $(params.ibmcloud-api-key) branch of $(params.repo-url) ..."
 
     - name: init
       workspaces:
@@ -27,8 +29,8 @@ spec:
           workspace: pipeline-workspace          
       taskRef:
         name: cleanup
-      runAfter:
-        - printparams
+      # runAfter:
+      #   - printparams
 
     - name: clone
       workspaces:
@@ -62,6 +64,29 @@ spec:
       runAfter:
         - npminstall
 
+    - name: set-target
+      taskRef:
+        name: ibmcloud
+      params:
+      - name: ARGS
+        value: 
+          - "target"
+          - "-r $(params.ibmcloud-region)"
+          - "-g production"
+      runAfter:
+        - tests
+
+    - name: login
+      taskRef:
+        name: ibmcloud
+      params:
+      - name: ARGS
+        value: 
+          - "login"
+          - "--apikey=$(params.ibmcloud-api-key)"
+      runAfter:
+        - set-target
+
     - name: build
       workspaces:
         - name: source
@@ -73,16 +98,4 @@ spec:
       - name: IMAGE
         value: "$(params.build-image)"
       runAfter:
-        - tests
-
-    - name: login
-      taskRef:
-        name: ibmcloud
-        # kind: ClusterTask
-      params:
-      - name: ARGS
-        value: 
-          - "login"
-          - "--apikey=$(params.ibmcloud-api-key)"
-      runAfter:
-        - build
+        - login
