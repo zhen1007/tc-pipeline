@@ -70,17 +70,24 @@ spec:
       runAfter:
         - tests
 
+#     - name: cr-login
+#       taskRef:
+#         name: ibmcloud
+#       params:
+#       - name: ARGS
+#         value: 
+#           - "cr"
+#           - "login"
+#       runAfter:
+#         - login
     - name: cr-login
+      workspaces:
+        - name: source
+          workspace: pipeline-workspace          
       taskRef:
-        name: ibmcloud
-      params:
-      - name: ARGS
-        value: 
-          - "cr"
-          - "login"
+        name: ibm-cr-login
       runAfter:
         - login
-
     # - name: build
     #   taskRef:
     #     name: docker-build
