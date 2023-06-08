@@ -68,22 +68,7 @@ spec:
           - "-r"
           - "$(params.ibmcloud-region)"
       runAfter:
-        - set-target
- 
-     - name: login
-      taskRef:
-        name: ibmcloud
-      params:
-      - name: ARGS
-        value: 
-          - "login"
-          - "--apikey=$(params.ibmcloud-api-key)"
-          - "-g"
-          - "production"
-          - "-r"
-          - "$(params.ibmcloud-region)"
-      runAfter:
-        - set-target
+        - tests
 
     - name: build
       workspaces:
@@ -97,5 +82,3 @@ spec:
         value: "$(params.build-image)"
       runAfter:
         - login
-
-
