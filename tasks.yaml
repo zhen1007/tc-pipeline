@@ -107,5 +107,5 @@ spec:
         #!/bin/bash
         set -e
         
-        echo "***** Running jasminetests *****"
+        echo "***** IBM Cloud Container Registry Login *****"
         ibmcloud cr login --client docker 
