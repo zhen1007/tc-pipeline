@@ -78,7 +78,6 @@ spec:
         value: 
           - "cr"
           - "login"
-          - "--client docker"
       runAfter:
         - login
 
