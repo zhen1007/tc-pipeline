@@ -70,9 +70,7 @@ spec:
       params:
       - name: ARGS
         value: 
-          - "target"
-          - "-r $(params.ibmcloud-region)"
-          - "-g production"
+          - "target -g production -r $(params.ibmcloud-region)"
       runAfter:
         - tests
 
@@ -99,3 +97,5 @@ spec:
         value: "$(params.build-image)"
       runAfter:
         - login
+
+
