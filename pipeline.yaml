@@ -72,7 +72,7 @@ spec:
         
     - name: build
       taskRef:
-        name: docker
+        name: docker-build
       params:
       - name: image
         value: "us.icr.io/sn-labs-muhammady/tax-calculator"
