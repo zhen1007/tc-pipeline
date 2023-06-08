@@ -80,6 +80,27 @@ spec:
         value: "-t"
       runAfter:
         - login
+
+    - name: deploy
+      taskRef:
+        name: ibmcloud
+      params:
+      - name: ARGS
+        value: 
+          - "ce"
+          - "application"
+          - "create"
+          - "--name"
+          - "tax-calculator"
+          - "--image"
+          - "us.icr.io/sn-labs-muhammady/tax-calculator"
+          - "--registry-secret"
+          - "icr-secret"
+          - "--port"
+          - "80"
+      runAfter:
+        - build
+
 #     - name: build
 #       workspaces:
 #         - name: source
