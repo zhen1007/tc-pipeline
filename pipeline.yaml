@@ -5,6 +5,12 @@ metadata:
 spec:
   workspaces:
     - name: pipeline-workspace
+    - name: dockerconfig
+      description: |
+        The folder where we write the message to. If no workspace
+        is provided then the message will not be written.        
+      optional: true
+      mountPath: /dockerconfig
   params:
     - name: app-name
     - name: build-image
@@ -16,13 +22,40 @@ spec:
     - name: branch
       default: master
   tasks:
+    - name: login1
+      taskRef:
+        name: ibmcloud
+      params:
+      - name: ARGS
+        value: 
+          - "login"
+          - "--apikey=$(params.ibmcloud-api-key)"
+          - "-g"
+          - "production"
+          - "-r"
+          - "$(params.ibmcloud-region)"
+      # runAfter:
+      #   - tests
+
+    - name: cr-login1
+      taskRef:
+        name: ibmcloud
+      params:
+      - name: ARGS
+        value: 
+          - "cr"
+          - "login"
+      runAfter:
+        - login1
+
     - name: init
       workspaces:
         - name: source
           workspace: pipeline-workspace          
       taskRef:
         name: cleanup
-        
+      runAfter:
+        - cr-login1
     - name: clone
       workspaces:
         - name: output
@@ -70,24 +103,23 @@ spec:
       runAfter:
         - tests
 
-#     - name: cr-login
-#       taskRef:
-#         name: ibmcloud
-#       params:
-#       - name: ARGS
-#         value: 
-#           - "cr"
-#           - "login"
-#       runAfter:
-#         - login
     - name: cr-login
-      workspaces:
-        - name: source
-          workspace: pipeline-workspace          
       taskRef:
-        name: ibm-cr-login
+        name: ibmcloud
+      params:
+      - name: ARGS
+        value: 
+          - "cr"
       runAfter:
         - login
+    # - name: cr-login
+    #   workspaces:
+    #     - name: source
+    #       workspace: pipeline-workspace          
+    #   taskRef:
+    #     name: ibm-cr-login
+    #   runAfter:
+    #     - login
     # - name: build
     #   taskRef:
     #     name: docker-build
