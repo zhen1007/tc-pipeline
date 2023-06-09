@@ -110,6 +110,8 @@ spec:
       - name: ARGS
         value: 
           - "cr"
+          - "login"
+          
       runAfter:
         - login
     # - name: cr-login
