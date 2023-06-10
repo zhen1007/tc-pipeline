@@ -5,6 +5,12 @@ metadata:
 spec:
   workspaces:
     - name: pipeline-workspace
+    - name: dockerconfig
+      description: |
+        The folder where we write the message to. If no workspace
+        is provided then the message will not be written.        
+      optional: true
+      mountPath: /dockerconfig
   params:
     - name: app-name
     - name: build-image
@@ -17,6 +23,9 @@ spec:
       default: master
   tasks:
     - name: login1
+      workspaces:
+        - name: source
+          workspace: pipeline-workspace          
       taskRef:
         name: ibmcloud
       params:
@@ -32,6 +41,13 @@ spec:
       #   - tests
 
     - name: cr-login1
+      workspaces:
+        - name: source
+          workspace: pipeline-workspace          
+      taskRef:
+        name: ibmcloud
+      params:
+      - name: ARGS
         value: 
           - "cr"
           - "login"
