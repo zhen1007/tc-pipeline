@@ -16,42 +16,49 @@ spec:
     - name: branch
       default: master
   tasks:
-    - name: login1
-      # workspaces:
-      #   - name: source
-      #     workspace: pipeline-workspace          
-      taskRef:
-        name: ibmcloud
-      params:
-      - name: ARGS
-        value: 
-          - "login"
-          - "--apikey=$(params.ibmcloud-api-key)"
-          - "-g"
-          - "production"
-          - "-r"
-          - "$(params.ibmcloud-region)"
-      # runAfter:
-      #   - tests
-
-    - name: cr-login1
-      # workspaces:
-      #   - name: source
-      #     workspace: pipeline-workspace          
-      taskRef:
-        name: ibmcloud
-      params:
-      - name: ARGS
-        value: 
-          - "cr"
-          - "login"
-          - "--apikey=$(params.ibmcloud-api-key)"
-          - "-g"
-          - "production"
-          - "-r"
-          - "$(params.ibmcloud-region)"
-      runAfter:
-        - login1
+    # - name: login1
+    #   # workspaces:
+    #   #   - name: source
+    #   #     workspace: pipeline-workspace          
+    #   taskRef:
+    #     name: ibmcloud
+    #   params:
+    #   - name: ARGS
+    #     value: 
+    #       - "login"
+    #       - "--apikey=$(params.ibmcloud-api-key)"
+    #       - "-g"
+    #       - "production"
+    #       - "-r"
+    #       - "$(params.ibmcloud-region)"
+    #   # runAfter:
+    #   #   - tests
+    # # - name: cr-login1
+    # #   workspaces:
+    # #     - name: source
+    # #       workspace: pipeline-workspace          
+    # #   taskRef:
+    # #     name: ibm-cr-login
+    # #   runAfter:
+    # #     - login1
+    # - name: cr-login1
+    #   # workspaces:
+    #   #   - name: source
+    #   #     workspace: pipeline-workspace          
+    #   taskRef:
+    #     name: ibmcloud
+    #   params:
+    #   - name: ARGS
+    #     value: 
+    #       - "cr"
+    #       - "login"
+    #       - "--apikey=$(params.ibmcloud-api-key)"
+    #       - "-g"
+    #       - "production"
+    #       - "-r"
+    #       - "$(params.ibmcloud-region)"
+    #   runAfter:
+    #     - login1
 
     - name: init
       workspaces:
@@ -59,8 +66,8 @@ spec:
           workspace: pipeline-workspace          
       taskRef:
         name: cleanup
-      runAfter:
-        - cr-login1
+      # runAfter:
+      #   - cr-login1
     - name: clone
       workspaces:
         - name: output
@@ -172,5 +179,7 @@ spec:
       params:
       - name: IMAGE
         value: "$(params.build-image)"
+      - name: "PUSH_EXTRA_ARGS"
+        value: "--apikey=$(params.ibmcloud-api-key)"
       runAfter:
         - cr-login
