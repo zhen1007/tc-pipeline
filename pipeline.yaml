@@ -32,13 +32,14 @@ spec:
       #   - tests
 
     - name: cr-login1
-      taskRef:
-        name: ibmcloud
-      params:
-      - name: ARGS
         value: 
           - "cr"
           - "login"
+          - "--apikey=$(params.ibmcloud-api-key)"
+          - "-g"
+          - "production"
+          - "-r"
+          - "$(params.ibmcloud-region)"
       runAfter:
         - login1
 
