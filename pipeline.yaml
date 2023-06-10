@@ -5,12 +5,6 @@ metadata:
 spec:
   workspaces:
     - name: pipeline-workspace
-    - name: dockerconfig
-      description: |
-        The folder where we write the message to. If no workspace
-        is provided then the message will not be written.        
-      optional: true
-      mountPath: /dockerconfig
   params:
     - name: app-name
     - name: build-image
