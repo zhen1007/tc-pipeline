@@ -17,9 +17,9 @@ spec:
       default: master
   tasks:
     - name: login1
-      workspaces:
-        - name: source
-          workspace: pipeline-workspace          
+      # workspaces:
+      #   - name: source
+      #     workspace: pipeline-workspace          
       taskRef:
         name: ibmcloud
       params:
@@ -35,9 +35,9 @@ spec:
       #   - tests
 
     - name: cr-login1
-      workspaces:
-        - name: source
-          workspace: pipeline-workspace          
+      # workspaces:
+      #   - name: source
+      #     workspace: pipeline-workspace          
       taskRef:
         name: ibmcloud
       params:
