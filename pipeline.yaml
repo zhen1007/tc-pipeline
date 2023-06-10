@@ -111,7 +111,11 @@ spec:
         value: 
           - "cr"
           - "login"
-          
+          - "--apikey=$(params.ibmcloud-api-key)"
+          - "-g"
+          - "production"
+          - "-r"
+          - "$(params.ibmcloud-region)"
       runAfter:
         - login
     # - name: cr-login
