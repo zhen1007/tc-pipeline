@@ -91,21 +91,3 @@ spec:
         
         echo "***** Running jasminetests *****"
         npx jasmine
----
-apiVersion: tekton.dev/v1beta1
-kind: Task
-metadata:
-  name: ibm-cr-login
-spec:
-  workspaces:
-    - name: source
-  steps:
-    - name: ibm-cr-login
-      image: node:20-buster-slim
-      workingDir: $(workspaces.source.path)
-      script: |
-        #!/bin/bash
-        set -e
-        
-        echo "***** IBM Cloud Container Registry Login *****"
-        ibmcloud cr login --client docker 
