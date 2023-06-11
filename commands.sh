@@ -15,6 +15,7 @@ kubectl apply -f pvc.yaml
 kubectl apply -f secret.yaml
 kubectl apply -f serviceaccount.yaml
 kubectl apply -f pipeline.yaml
+kubectl apply -f run.yaml
 
 tkn pipeline start cd-pipeline \
     -p repo-url="https://github.com/yahya-skillup/tax_calculator.git" \
