@@ -12,6 +12,8 @@ kubectl apply -f https://api.hub.tekton.dev/v1/resource/tekton/task/ibmcloud/0.1
 
 kubectl apply -f tasks.yaml
 kubectl apply -f pvc.yaml
+kubectl apply -f secret.yaml
+kubectl apply -f serviceaccount.yaml
 kubectl apply -f pipeline.yaml
 
 tkn pipeline start cd-pipeline \
