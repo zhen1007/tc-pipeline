@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:  
-  name: cd-pipeline
+  name: tc-pipeline
 spec:
   workspaces:
     - name: pipeline-workspace
@@ -9,12 +9,8 @@ spec:
     - name: app-name
     - name: build-image
     - name: repo-url
-    - name: ibmcloud-api-key
-    - name: ibmcloud-region
-      default: us-south
-    - name: ibmcloud-project-id
     - name: branch
-      default: master
+      default: main
   tasks:
   
     - name: init
@@ -38,49 +34,3 @@ spec:
         value: $(params.branch)
       runAfter:
         - init      
-        
-    - name: npminstall
-      workspaces:
-        - name: source
-          workspace: pipeline-workspace          
-      taskRef:
-        name: npm
-      runAfter:
-        - clone
-        
-    - name: tests
-      workspaces:
-        - name: source
-          workspace: pipeline-workspace          
-      taskRef:
-        name: jasmine
-      runAfter:
-        - npminstall
-
-    - name: login
-      taskRef:
-        name: ibmcloud
-      params:
-      - name: ARGS
-        value: 
-          - "login"
-          - "--apikey=$(params.ibmcloud-api-key)"
-          - "-g"
-          - "production"
-          - "-r"
-          - "$(params.ibmcloud-region)"
-      runAfter:
-        - tests
-
-    - name: build
-      workspaces:
-        - name: source
-          workspace: pipeline-workspace          
-      taskRef:
-        name: buildah
-        kind: ClusterTask
-      params:
-      - name: IMAGE
-        value: "$(params.build-image)"
-      runAfter:
-        - login
