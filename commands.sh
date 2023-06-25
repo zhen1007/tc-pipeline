@@ -41,7 +41,7 @@ ibmcloud ce project current | grep Region | awk '{split($2, a, ":"); print a[1]}
 ibmcloud ce project select --id d8db2fbf-REMAINING_ID
 ibmcloud ce project current
 
-
+ibmcloud ce application delete --name tax-calculator  -f
 
 tkn pipeline start cd-pipeline \
     -p repo-url="https://github.com/yahya-skillup/tax_calculator.git" \
