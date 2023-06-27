@@ -6,7 +6,6 @@ spec:
   workspaces:
     - name: pipeline-workspace
   params:
-    - name: app-name
     - name: build-image
     - name: repo-url
     - name: branch
